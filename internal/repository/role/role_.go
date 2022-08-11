@@ -3,13 +3,11 @@ package role
 import (
 	"employee-app/internal/entity/model"
 	"employee-app/logger"
-
-	"gorm.io/gorm"
 )
 
-func (r *repository) CreateRole(role model.Role, tx *gorm.DB) (model.Role, error) {
+func (r *repository) CreateRole(role model.Role) (model.Role, error) {
 	logger.Infof("Start CreateRole %+v ", role)
-	err := tx.Create(&role).Error
+	err := r.db.Create(&role).Error
 	logger.Info("End CreateRole")
 	return role, err
 }

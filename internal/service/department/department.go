@@ -4,8 +4,6 @@ import (
 	"employee-app/internal/entity/dto"
 	"employee-app/internal/entity/model"
 	"employee-app/internal/repository/department"
-
-	"gorm.io/gorm"
 )
 
 type ServiceInterface interface {
@@ -17,12 +15,10 @@ type ServiceInterface interface {
 
 type service struct {
 	department department.RepositoryInterface
-	db         *gorm.DB
 }
 
-func InitDepartmentService(department department.RepositoryInterface, db *gorm.DB) ServiceInterface {
+func InitDepartmentService(department department.RepositoryInterface) ServiceInterface {
 	return &service{
 		department: department,
-		db:         db,
 	}
 }

@@ -4,8 +4,6 @@ import (
 	"employee-app/internal/entity/dto"
 	"employee-app/internal/entity/model"
 	"employee-app/internal/repository/role"
-
-	"gorm.io/gorm"
 )
 
 type ServiceInterface interface {
@@ -16,12 +14,10 @@ type ServiceInterface interface {
 
 type service struct {
 	role role.RepositoryInterface
-	db   *gorm.DB
 }
 
-func InitRoleService(role role.RepositoryInterface, db *gorm.DB) ServiceInterface {
+func InitRoleService(role role.RepositoryInterface) ServiceInterface {
 	return &service{
 		role: role,
-		db:   db,
 	}
 }

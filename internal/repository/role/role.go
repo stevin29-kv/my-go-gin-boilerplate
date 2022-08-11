@@ -7,7 +7,7 @@ import (
 )
 
 type RepositoryInterface interface {
-	CreateRole(role model.Role, tx *gorm.DB) (model.Role, error)
+	CreateRole(role model.Role) (model.Role, error)
 	GetAllRoles() ([]model.Role, error)
 	GetRoleById(id string) (model.Role, error)
 }

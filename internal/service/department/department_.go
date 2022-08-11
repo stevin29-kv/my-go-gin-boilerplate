@@ -11,7 +11,7 @@ import (
 func (ds *service) CreateDepartment(createDepartmentDto dto.CreateDepartment) *model.APIResponse {
 	logger.Infof("Start CreateDepartment %+v", createDepartmentDto)
 
-	tx := ds.db.Begin()
+	// tx := ds.db.Begin()
 
 	departmentDetails := model.DepartmentDetails{
 		DepartmentRoom: createDepartmentDto.DepartmentRoom,
@@ -24,10 +24,10 @@ func (ds *service) CreateDepartment(createDepartmentDto dto.CreateDepartment) *m
 		Department: departmentDetails,
 	}
 
-	department, err := ds.department.CreateDepartment(department, tx)
+	department, err := ds.department.CreateDepartment(department)
 	if err != nil {
 		logger.Error("Error while creating department", err.Error())
-		tx.Rollback()
+		// tx.Rollback()
 		return &model.APIResponse{
 			StatusCode: 404,
 			Data: &model.ErrorStatus{
@@ -35,7 +35,7 @@ func (ds *service) CreateDepartment(createDepartmentDto dto.CreateDepartment) *m
 			},
 		}
 	}
-	tx.Commit()
+	// tx.Commit()
 
 	logger.Infof("End CreateDepartment %+v", department)
 	return &model.APIResponse{
@@ -84,12 +84,12 @@ func (ds *service) GetDepartmentById(id string) *model.APIResponse {
 func (ds *service) UpdateDepartment(UpdateDepartmentDto dto.UpdateDepartment, id string) *model.APIResponse {
 	logger.Infof("Start UpdateDepartment %+v", UpdateDepartmentDto)
 
-	tx := ds.db.Begin()
+	// tx := ds.db.Begin()
 
 	department, err := ds.department.GetDepartmentById(id)
 	if err != nil {
 		logger.Error("Department not found", err.Error())
-		tx.Rollback()
+		// tx.Rollback()
 		return &model.APIResponse{
 			StatusCode: 404,
 			Data: &model.ErrorStatus{
@@ -105,10 +105,10 @@ func (ds *service) UpdateDepartment(UpdateDepartmentDto dto.UpdateDepartment, id
 		Website:        UpdateDepartmentDto.Website,
 	}
 
-	updatedDepartmentDetails, err = ds.department.UpdateDepartmentDetails(updatedDepartmentDetails, strconv.Itoa(deptDetailsId), tx)
+	updatedDepartmentDetails, err = ds.department.UpdateDepartmentDetails(updatedDepartmentDetails, strconv.Itoa(deptDetailsId))
 	if err != nil {
 		logger.Error("Error while updating department details", err.Error())
-		tx.Rollback()
+		// tx.Rollback()
 		return &model.APIResponse{
 			StatusCode: 404,
 			Data: &model.ErrorStatus{
@@ -122,10 +122,10 @@ func (ds *service) UpdateDepartment(UpdateDepartmentDto dto.UpdateDepartment, id
 		Department: updatedDepartmentDetails,
 	}
 
-	updatedDepartment, err = ds.department.UpdateDepartment(updatedDepartment, id, tx)
+	updatedDepartment, err = ds.department.UpdateDepartment(updatedDepartment, id)
 	if err != nil {
 		logger.Error("Error while updating department", err.Error())
-		tx.Rollback()
+		// tx.Rollback()
 		return &model.APIResponse{
 			StatusCode: 404,
 			Data: &model.ErrorStatus{
@@ -133,7 +133,7 @@ func (ds *service) UpdateDepartment(UpdateDepartmentDto dto.UpdateDepartment, id
 			},
 		}
 	}
-	tx.Commit()
+	// tx.Commit()
 
 	logger.Infof("End UpdateDepartment %+v", updatedDepartment)
 	return &model.APIResponse{

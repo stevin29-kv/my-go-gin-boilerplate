@@ -13,12 +13,12 @@ func (rs *service) CreateRole(createRoleDto dto.CreateRole) *model.APIResponse {
 		Role: createRoleDto.Role,
 	}
 
-	tx := rs.db.Begin()
+	// tx := rs.db.Begin()
 
-	role, err := rs.role.CreateRole(role, tx)
+	role, err := rs.role.CreateRole(role)
 	if err != nil {
 		logger.Error("Error while creating role", err.Error())
-		tx.Rollback()
+		// tx.Rollback()
 		return &model.APIResponse{
 			StatusCode: 404,
 			Data: &model.ErrorStatus{
@@ -26,7 +26,7 @@ func (rs *service) CreateRole(createRoleDto dto.CreateRole) *model.APIResponse {
 			},
 		}
 	}
-	tx.Commit()
+	// tx.Commit()
 
 	logger.Infof("End CreateRole %+v", role)
 	return &model.APIResponse{
